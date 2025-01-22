@@ -1,0 +1,18 @@
+syntax = "proto3";
+package mvt.protocol;
+import "mvt_msg_header.proto";
+
+
+message Lidar {
+  // stamp 是第一个点的时间
+  DataHeader header = 1;
+  // 帧扫描时间
+  float scan_time = 2;
+  // 激光点数
+  int32 points_num = 3;
+}
+
+message LidarArray {
+  repeated Lidar lidar_data = 1;
+}
+

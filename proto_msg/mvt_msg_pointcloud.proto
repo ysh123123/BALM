@@ -1,0 +1,30 @@
+syntax = "proto3";
+package mvt.protocol;
+import "mvt_msg_header.proto";
+
+message PointXYZ {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+}
+
+message PointXYZI {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float intensity = 4;
+}
+
+message PointCloudXYZ {
+  repeated PointXYZ point = 1;
+}
+
+message PointCloudXYZI {
+  repeated PointXYZI point = 1;
+}
+
+// for pointcloud visualization
+message PlotPointCloud {
+  PlotHeader header = 1;
+  PointCloudXYZI pc = 2;
+}

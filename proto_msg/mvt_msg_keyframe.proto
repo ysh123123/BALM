@@ -1,0 +1,60 @@
+syntax = "proto3";
+package mvt.protocol;
+
+import "mvt_msg_header.proto";
+import "mvt_msg_pointcloud.proto";
+import "mvt_msg_geometry.proto";
+
+message KeyFrame {
+  DataHeader header = 1;
+  // 计算生成关键帧的时间，单位ns
+  int64 time = 2;
+  int32 id = 3;
+  Pose pose = 4;
+  PointCloudXYZI pc = 5;
+}
+
+message KeyFrameArray {
+  repeated KeyFrame data = 1;
+}
+
+// g2o 顶点类型
+// SE3:
+//      values: [x, y, z, qw, qx, qy, qz]
+//      sigmas: [x, y, z, roll, pitch, yaw]
+message Vertex {
+  enum VERTEX_TYPE {
+    SE2 = 0;
+    SE3 = 1;
+  }
+  VERTEX_TYPE type = 1;
+  // vertex id
+  int32 id = 2;
+  // 位姿数据等
+  repeated double values = 3;
+  // 信息矩阵相关数据 (有可能没有)
+  repeated double sigmas = 4;
+}
+
+message VertexArray {
+  repeated Vertex data = 1;
+}
+
+// g2o 边类型
+// SE3:
+//      values: [x, y, z, qw, qx, qy, qz]
+//      sigmas: [x, y, z, roll, pitch, yaw]
+//      links: [vertex_id_1, vertex_id_2]
+message Edge {
+  enum EDGE_TYPE {
+    SE2 = 0;
+    SE3 = 1;
+  }
+  EDGE_TYPE type = 1;
+  // 位姿数据等
+  repeated double values = 2;
+  // 信息矩阵相关数据
+  repeated double sigmas = 3;
+  // 连接信息
+  repeated int32 links = 4;
+}

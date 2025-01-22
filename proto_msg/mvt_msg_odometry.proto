@@ -1,0 +1,28 @@
+syntax = "proto3";
+package mvt.protocol;
+import "mvt_msg_header.proto";
+import "mvt_msg_geometry.proto";
+
+
+message Odometry {
+  Pose pose = 1;
+  // 位姿协方差
+  Covariance pose_cov = 2;
+}
+
+message PlotOdometrys {
+  PlotHeader header = 1;
+  // 只有里程计数据为空的时候才会更新相关显示参数
+  // 缓存大小
+  int32 cache_size = 2;
+  // 坐标轴显示大小
+  float axis_size = 3;
+  // 距离分辨率 单位m
+  float distance_resolution = 4;
+  // 角度分辨率 单位deg
+  float angle_resolution = 5;
+  // 坐标轴颜色模式
+  int32 color_mode = 6;
+  // 里程计数据
+  repeated Odometry odometrys = 7;
+}

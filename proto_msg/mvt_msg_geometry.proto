@@ -1,0 +1,58 @@
+syntax = "proto3";
+package mvt.protocol;
+
+message Quaternion {
+  double x = 1;
+  double y = 2;
+  double z = 3;
+  double w = 4;
+}
+
+message Point {
+  double x = 1;
+  double y = 2;
+  double z = 3;
+}
+
+message Line {
+  Point start = 1;
+  Point end = 2;
+}
+
+message Pose {
+  Point position = 1;
+  Quaternion orientation = 2;
+}
+
+message Covariance {
+  // 维数
+  uint32 dim = 1;
+  repeated double data = 2;
+}
+
+message ArrayFloat {
+  repeated float data = 1;
+}
+
+message ArrayDouble {
+  repeated double data = 1;
+}
+
+message Matrix {
+  enum TYPE {
+    None = 0;
+    // 位置 [x, y, z]
+    Pos = 1;
+    // 四元数 [x, y, z, w]
+    Quaternion = 2;
+  }
+  // 行数
+  uint32 rows = 1;
+  // 列数
+  uint32 cols = 2;
+  // 数据 逐行存储
+  repeated double data = 3;
+  // 类型
+  TYPE type = 4;
+}
+
