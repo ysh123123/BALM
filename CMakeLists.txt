@@ -23,7 +23,6 @@ message(STATUS "SHARED_LIB_PATH: ${SHARED_LIB_PATH}")
 # Find required packages
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
-find_package(Ceres REQUIRED)
 find_package(PATC REQUIRED)
 
 # Add subdirectory for proto_msg
@@ -38,28 +37,15 @@ include_directories(
 )
 
 # Add the benchmark executable and link libraries
-add_executable(${PROJECT_NAME}_benchmark_realworld src/benchmark/benchmark_realworld.cpp)
-target_link_libraries(${PROJECT_NAME}_benchmark_realworld PRIVATE proto_msg ${PCL_LIBRARIES} ${PATC_LIBRARIES})
+add_executable(${PROJECT_NAME}_slid_ba src/balm1.cpp
+include/myso3/myso3.cpp)
+target_link_libraries(${PROJECT_NAME}_slid_ba PRIVATE proto_msg ${PCL_LIBRARIES} ${PATC_LIBRARIES})
 
+add_executable(${PROJECT_NAME}_slid_ba2 src/balm2.cpp
+    include/myso3/myso3.cpp)
+target_link_libraries(${PROJECT_NAME}_slid_ba2 PRIVATE proto_msg ${PCL_LIBRARIES} ${PATC_LIBRARIES})
 
-#add_executable(consistency src/simulation/consistency.cpp)
-#target_link_libraries(consistency ${catkin_LIBRARIES} ${PCL_LIBRARIES})
-#
-#add_executable(benchmark_virtual src/benchmark/benchmark_virtual.cpp)
-#target_link_libraries(benchmark_virtual ${catkin_LIBRARIES} ${PCL_LIBRARIES})
-
-
-
-#add_executable(PA_test src/compare_test/PA_test.cpp)
-#target_link_libraries(PA_test ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${CERES_LIBRARIES})
-#
-#add_executable(BAREG_test src/compare_test/BAREG_test.cpp)
-#target_link_libraries(BAREG_test ${catkin_LIBRARIES} ${PCL_LIBRARIES} ${CERES_LIBRARIES})
-#
-#add_executable(BALM1_test src/compare_test/BALM1_test.cpp)
-#target_link_libraries(BALM1_test ${catkin_LIBRARIES} ${PCL_LIBRARIES})
-#
-#add_executable(EF_test src/compare_test/EF_test.cpp src/compare_test/SE3/SO3.cpp src/compare_test/SE3/SE3.cpp)
-#target_link_libraries(EF_test ${catkin_LIBRARIES} ${PCL_LIBRARIES})
+#add_executable(${PROJECT_NAME}_consistency src/simulation/consistency.cpp)
+#target_link_libraries(${PROJECT_NAME}_consistency PRIVATE proto_msg ${PCL_LIBRARIES} ${PATC_LIBRARIES})
 
 

@@ -27,4 +27,5 @@ message PointCloudXYZI {
 message PlotPointCloud {
   PlotHeader header = 1;
   PointCloudXYZI pc = 2;
+  int32 id = 3;
 }
