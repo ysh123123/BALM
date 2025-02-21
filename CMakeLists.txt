@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(balm2)
+project(ba_test)
 
 # Set the build type
 set(CMAKE_BUILD_TYPE "Release")
@@ -24,7 +24,7 @@ message(STATUS "SHARED_LIB_PATH: ${SHARED_LIB_PATH}")
 find_package(Eigen3 REQUIRED)
 find_package(PCL REQUIRED)
 find_package(PATC REQUIRED)
-
+find_package(GTSAM REQUIRED QUIET)
 # Add subdirectory for proto_msg
 add_subdirectory(proto_msg)
 
@@ -32,20 +32,18 @@ add_subdirectory(proto_msg)
 include_directories(
     include
     ${PCL_INCLUDE_DIRS}
-    ${CERES_INCLUDE_DIRS}
+    ${GTSAM_INCLUDE_DIR}
     ${PATC_INCLUDE_DIR}
 )
+file(GLOB_RECURSE SOURCE_FILES "include/**/*.cpp" "include/*.cpp" "src/*.cpp")
 
 # Add the benchmark executable and link libraries
-add_executable(${PROJECT_NAME}_slid_ba src/balm1.cpp
-include/myso3/myso3.cpp)
-target_link_libraries(${PROJECT_NAME}_slid_ba PRIVATE proto_msg ${PCL_LIBRARIES} ${PATC_LIBRARIES})
+add_executable(${PROJECT_NAME}_slid_ba1 app/balm1_test.cpp ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME}_slid_ba1 PRIVATE proto_msg ${PCL_LIBRARIES} ${PATC_LIBRARIES})
 
-add_executable(${PROJECT_NAME}_slid_ba2 src/balm2.cpp
-    include/myso3/myso3.cpp)
-target_link_libraries(${PROJECT_NAME}_slid_ba2 PRIVATE proto_msg ${PCL_LIBRARIES} ${PATC_LIBRARIES})
+add_executable(${PROJECT_NAME}_slid_ba2 app/balm2_test.cpp ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME}_slid_ba2 PRIVATE proto_msg gtsam ${PCL_LIBRARIES} ${PATC_LIBRARIES})
 
-#add_executable(${PROJECT_NAME}_consistency src/simulation/consistency.cpp)
-#target_link_libraries(${PROJECT_NAME}_consistency PRIVATE proto_msg ${PCL_LIBRARIES} ${PATC_LIBRARIES})
-
+add_executable(${PROJECT_NAME}_hba app/hba_test.cpp ${SOURCE_FILES})
+target_link_libraries(${PROJECT_NAME}_hba #[[${catkin_LIBRARIES}]] gtsam ${PCL_LIBRARIES} proto_msg ${PATC_LIBRARIES})
 
